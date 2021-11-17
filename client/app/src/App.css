@@ -1,0 +1,18 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  font-family: 'Courier New', Courier, monospace;
+  overflow-y: hidden;
+}
+
+.Top {
+  height: 5vh;
+}
+
+.Main {
+  height: 95vh;
+  
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}

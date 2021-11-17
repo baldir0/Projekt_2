@@ -1,0 +1,198 @@
+.left.menu {
+  background: #111111;
+  width: 300px;
+  height: 100%;
+  border-right: 2px solid #000000;
+  color: #FFFFFF;
+}
+
+.banner {
+  background: #3A3A3A;
+  text-align: center;
+  font-size: 30px;
+  line-height: 9.9vh;
+  border-bottom: 0.1vh solid #222222;
+  color: #FFFFFF;
+}
+
+.elements {
+  background: #3F3F3F;
+  height: 80vh;
+  overflow-y: scroll;
+  scroll-behavior: smooth;
+  scrollbar-color: #111111;
+}
+
+.elements::-webkit-scrollbar {
+  background: #252525;
+  border: 1px solid #222222;
+  width: 8px;
+}
+
+.elements::-webkit-scrollbar-thumb {
+  background: #151515;
+}
+
+.elements::-webkit-scrollbar-button {
+  display: none;
+}
+
+.element {
+  height: auto;
+  width: 100%;
+  background: #333333;
+  margin-bottom: 0.2vh;
+  text-align: center;
+  cursor: pointer;
+
+
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.element:hover {
+  background: #2F2F2F;
+}
+
+.element.main {
+
+}
+
+
+
+.element.main .image {
+  width: 64px;
+  height: 64px;
+  border-radius: 100%;
+  margin: 5px;
+  border: 1px solid black;
+}
+
+.element.main .text {
+  margin-left: 5px;
+  width: 75%;
+}
+
+.element .button.edit {
+  display: block;
+  width: 64px;
+  height: 100%;
+  border-left: 1px solid #222222;
+}
+
+.element .button.edit:hover {
+  background: #222222;
+}
+
+.element .button.edit img {
+  height: 32px;
+}
+
+.controls {
+  height: 5vh;
+  border-top: 1px solid black;
+  display: flex;
+  flex-direction: row;
+
+}
+
+.controls .button {
+  border-left: 0.1vw solid black;
+  width: -webkit-fill-available;
+  background: #3A3A3A;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.controls .button:hover {
+  background: #333333;
+  cursor: pointer;
+}
+
+.controls .refresh {
+  color: white;
+}
+
+@keyframes display {
+  from { top: -50%; }
+  to { top: 50%; }
+}
+
+.new-element {
+  z-index: 100;
+
+  position: absolute;
+  background: #222222;
+  border: 1px solid black;
+  font-size: 24px;
+
+  height: 75vh;
+  width: 75vw;
+  padding: 2vw;
+  
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  animation-name: display;
+  animation-duration: 1s;
+
+  overflow: auto;
+
+}
+
+
+.new-element .form {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: none;
+}
+
+.new-element .form textarea {
+  resize: vertical;
+
+  background: #333333;
+  border: 1px solid #000000;
+  margin-bottom: 5px;
+  
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.new-element .form input[type="text"] {
+
+  background: #333333;
+  border: 1px solid #000000;
+  margin-bottom: 5px;
+
+  color: #ffffff;
+  font-size: 24px;
+}
+
+.close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  font-size: 16px;
+
+  text-align: center;
+  padding: 10px;
+  margin: 20px;
+
+
+  border: 1px solid #000000;
+  border-radius: 100%;
+  background: #252525;
+}
+
+.close:hover {
+  background: #111111;
+  cursor: pointer;
+}
