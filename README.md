@@ -7,3 +7,4 @@ Założenia:
 4. Edycja Przepisów
 5. Konta użytkowników
 6. Podstawowy system permisji - usuwanie, dodawanie, edycja
+7. Wszystkie dane pobierane z bazy danych
