@@ -1,60 +1,119 @@
 const express  = require('express');
-const mysql = require('mysql');
 const cors = require('cors');
-const path = require('path');
 const bodyParser = require('body-parser');
+const { Sequelize, Model, DataTypes } = require('sequelize') // ORM
+const crypto = require('crypto');
+
+const sequelize = new Sequelize('crud_app', 'server', 'zaq1@WSX', {
+  host: 'localhost',
+  dialect: 'mysql'
+})
+
+const testConnection = async () => {
+  try {
+    await sequelize.authenticate()
+    console.log("Connected")
+  } catch (err) {
+    console.error('Unable to connect');
+  }
+}
+
+// Data Base Models
+const Users = sequelize.define('users', {
+  username: {
+    type: DataTypes.STRING(45),
+    allowNull: false,
+    unique: true
+  },
+  password: {
+    type: DataTypes.STRING(45),
+    allowNull: false
+  },
+  permissions: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  }
+})
+
+const Sessions = sequelize.define('sessions', {
+  userid: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  sessionid: {
+    type: DataTypes.STRING(64),
+    allowNull: false,
+    unique: true
+  }
+})
+
+const Recipes = sequelize.define('recipes', {
+  title: {
+    type: DataTypes.STRING(64),
+    allowNull: false
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false
+  },
+  ingredients: {
+    type: DataTypes.JSON,
+    allowNull: false
+  },
+  steps: {
+    type: DataTypes.JSON,
+    allowNull: false
+  },
+  images: {
+    type: DataTypes.JSON,
+  },
+  icon: {
+    type: DataTypes.STRING(45)
+  }
+})
 
 const Server = express();
 const PORT = 3001;
-
-const con = mysql.createConnection({
-  host: 'localhost',
-  user: 'server',
-  password: 'zaq1@WSX',
-  database: 'crud_app'
-})
-
-con.connect((err) => {
-  if (err) throw err;
-  console.log("Connected To DataBase");
-})
 
 Server.use(cors());
 Server.use(express.json());
 Server.use(bodyParser.urlencoded({extended: false}));
 
+// METHOD GET
+
+/* Get Server Status */
 Server.get('/api/status', (req, res) => {
   res.sendStatus(200);
 })
 
+/* Get All Recipes From DB */
 Server.get('/api/get/recipes', async (req, res) => {
-  con.query("SELECT id, title, icon FROM recipes", (err, result) => {
-    if (err) console.log(err);
-    res.send(result);
-  });
+  await Recipes.findAll({raw: true}).then((result) => {
+    if (result !== undefined && result) res.send(result);
+    else res.sendStatus(404);
+  })
 })
 
+/* Get Single Recipe From DB */
 Server.get('/api/get/recipes/:id', async (req, res) => {
-  const id = req.params.id;
-
-  con.query("SELECT id, title, description, ingredients, steps, images FROM recipes WHERE id = ?", id, (err, result) => {
-    if (err) console.log(err);
-    res.send(result[0]);
-  });
-
+  await Recipes.findOne({where: {id: req.params.id}}).then((result) => {
+    if (result !== undefined && result) res.send(result.dataValues);
+    else res.sendStatus(404);
+  })
 })
 
+/* Get Image From Server */
 Server.get('/api/get/image/:name', async (req, res) => {
-  const options = {
-    root: path.join(__dirname, 'images'),
-    dotfiles: 'deny',
-    headers: {
-      'x-timestamp': Date.now(),
-      'x-sent': true
+  if (req.params.name === null) res.sendStatus(404);
+  else {
+    const options = {
+      root: './images'
     }
+    res.sendFile(req.params.name, options);
   }
-  res.sendFile(req.params.name, options);
 })
+
+// METHOD POST
 
 Server.post('/api/post/create-recipe', async (req, res) => { 
   
@@ -67,14 +126,85 @@ Server.post('/api/post/create-recipe', async (req, res) => {
     icon: req.body.icon
   }
 
-  const sql = "INSERT INTO recipes (title, description, ingredients, steps, images, icon) VALUES (?, ?, ?, ?, ?, ?)";
-  con.query(sql, [data.title, data.description, data.ingredients, data.steps, data.images, data.icon], (result, err) => {
-    if (!err) res.sendStatus(200)
-    else res.send(err);
+  await Recipes.create({
+    title: data.title, 
+    description: data.description, 
+    ingredients: data.ingredients, 
+    steps: data.steps, 
+    images: data.images,
+    icon: data.icon
+  }, { fields: ['title', 'description', 'ingredients', 'steps', 'images', 'icon']}).then( (result) => {
+    res.send(result);
   })
 })
+
+// METHOD DELETE
+
+Server.delete('/api/delete/delete-recipe/:id', async (req, res) => {
+  await Recipes.destroy({ where:  {id: req.params.id }})
+    .then((result) => res.sendStatus(200));
+})
+
+// USER AUTHENTICATION
+Server.post('/api/auth/login', async (req, res) => {
+  Users.findOne({where: {
+    username: req.body.username,
+    password: req.body.password
+  }}).then( (result) => {
+    if (result) {
+      const data = {
+        id: result.getDataValue('id'),
+        sessionId: crypto.randomBytes(32).toString('hex')
+      }
+      
+      Sessions.create({
+        userid: data.id,
+        sessionid: data.sessionId
+      }).then( (result) => {
+        if (result) res.send(data.sessionId);
+        else res.send(null)
+      })
+
+    } else res.send(null)
+  } )
+})
+
+Server.get('/api/auth/validate/:sessionid', async (req, res) => {
+  Sessions.findOne({where: {
+    sessionid: req.params.sessionid
+  }})
+    .then( (result) => {
+      console.log(result);
+      if (result) res.sendStatus(200)
+      else res.sendStatus(204)
+    })
+})
+
+Server.get('/api/get/userPermissionLevel/:sessionid', (req, res) => {
+  Users.findOne({where: {
+    id: Sessions.findOne({where: {
+      sessionid: req.props.sessionid
+    }})
+  }})
+    .then( (result) => {
+      if (result) res.send(result.getDataValue('permissions'))
+      else res.sendStatus(204);
+    })
+})
+
+Server.delete('/api/auth/logout/:sessionid', (req, res) => {
+  Sessions.destroy({where: {
+    sessionid: req.params.sessionid
+  }})
+    .then( (result) => {
+      if (result) res.sendStatus(200);
+      else res.sendStatus(204);
+    })
+})
+
 
 
 Server.listen(PORT, () => {
   console.log("Listening on port 3001");
 })
+

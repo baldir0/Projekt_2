@@ -56,11 +56,9 @@
   background: #2F2F2F;
 }
 
-.element.main {
-
+.element.main { 
+  flex: 2;
 }
-
-
 
 .element.main .image {
   width: 64px;
@@ -75,19 +73,33 @@
   width: 75%;
 }
 
-.element .button.edit {
+.element.buttons { 
+  display: flex;
+  flex-direction: column;
+  width: fit-content;
+}
+
+.element.buttons .button:hover {
+  background: #222222;
+}
+
+.element.buttons .button.edit {
   display: block;
   width: 64px;
   height: 100%;
   border-left: 1px solid #222222;
 }
 
-.element .button.edit:hover {
-  background: #222222;
+.element.buttons .button.delete {
+  display: block;
+  width: 64px;
+  height: 100%;
+  border-left: 1px solid #222222;
 }
 
-.element .button.edit img {
+.element.buttons .button img {
   height: 32px;
+  margin: auto;
 }
 
 .controls {
@@ -123,7 +135,7 @@
   to { top: 50%; }
 }
 
-.new-element {
+.new-element, .edit-element {
   z-index: 100;
 
   position: absolute;

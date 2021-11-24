@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import MenuElement from './MenuElement.js';
 import axios from 'axios';
 
+import getCookieValue from '../cookie';
+import {validateSession, getUserPermissions} from '../login';
+
 import './LeftMenu.css';
 
 const LeftMenu = (props) => {
@@ -14,7 +17,9 @@ const LeftMenu = (props) => {
   const [steps, setSteps] = useState("Steps");
   const [files, setFiles] = useState([]);
 
+
   useEffect( () => {
+
     axios.get("http://localhost:3001/api/get/recipes")
       .then( (res) => {
         if (res.status !== 200) {
@@ -27,14 +32,14 @@ const LeftMenu = (props) => {
           key={r.id} 
           elementId={r.id} 
           onClick={() => props.setLoadedElement(r.id)} 
-          editState={() => setState(3)}
+          editSelected={() => editSelected(r.id)}
+          deleteSelected={() => deleteSelected(r.id)}
           src={`http://localhost:3001/api/get/image/${r.icon}`} />
         }));
       })
   }, [props]);
   
   const refresh = () => {
-    setState(null);
     setElements(<div className="loading">Refreshing...</div>)
     axios.get("http://localhost:3001/api/get/recipes")
     .then( (res) => {
@@ -48,10 +53,13 @@ const LeftMenu = (props) => {
           key={r.id} 
           elementId={r.id} 
           onClick={() => props.setLoadedElement(r.id)} 
-          editState={() => setState(3)}
+          editSelected={() => editSelected(r.id)}
+          deleteSelected={() => deleteSelected(r.id)}
           src={`http://localhost:3001/api/get/image/${r.icon}`}  />
       }));
     })
+
+    setState(null);
   }
 
   const createNewSubmit = (event) => {
@@ -73,9 +81,11 @@ const LeftMenu = (props) => {
     axios.post('http://localhost:3001/api/post/create-recipe', data)
       .then(res => {
         console.log(res);
+        refresh();
       })
 
     console.log(data)
+
   }
 
   const createNewValueChange = (event) => {
@@ -114,9 +124,10 @@ const LeftMenu = (props) => {
     );
   }
 
-  const editSelected = () => {
+  const editSelected = (id) => {
+    console.log('Edit: ' + id);
     return (
-      <div className = "new-element">
+      <div className = "edit-element">
         <h1>Edit Selected Recipe</h1>
         <form>
           <input type="text" id="title" placeholder="title"></input>
@@ -128,6 +139,11 @@ const LeftMenu = (props) => {
       </div>)
   }
 
+  const deleteSelected = async (id) => {
+    await axios.delete(`http://localhost:3001/api/delete/delete-recipe/${id}`)
+      .then( (res) => refresh());
+  }
+
   return (
   <div className="menu left">
     <div className="banner">
@@ -137,14 +153,10 @@ const LeftMenu = (props) => {
       {elements}
     </div>
     <div className="controls">
-      <div className="button refresh" onClick={() => setState(1)}><img src="RefreshItem.svg" alt="refresh"/></div>
-      <div className="button add" onClick={() => setState(2)}><img src="AddItem.svg" alt="add"/></div>
-      
+      <div className="button refresh" onClick={() => refresh()}><img src="RefreshItem.svg" alt="refresh"/></div>
+      <div className="button add" onClick={() => setState(1)}><img src="AddItem.svg" alt="add"/></div>
     </div>
-
-    { state === 1 ? refresh() : null }
-    { state === 2 ? createNew(setState) : null }
-    { state === 3 ? editSelected(setState) : null }
+    { state === 1 ? createNew() : null }
   </div>
   );
 }
