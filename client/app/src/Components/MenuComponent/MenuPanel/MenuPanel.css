@@ -1,0 +1,22 @@
+.menu-panel {
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+
+  bottom: 0px;
+  left: 0%;
+}
+
+.menu-panel .button img {
+  width: 30%;
+}
+
+.menu-panel .button {
+  background: #555;
+}
+
+.menu-panel .button:hover {
+  
+  background: #444;
+  cursor: pointer;
+}

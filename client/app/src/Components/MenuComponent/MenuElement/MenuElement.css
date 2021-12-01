@@ -1,0 +1,59 @@
+.element {
+  display: flex;
+  flex-direction: row;
+}
+
+.menu-element {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  
+  font-size: 15px;
+  align-items: center;
+
+  border-bottom: 0.1em solid #000;
+  background: #444;
+  transition: 0.5s;
+}
+
+.menu-element:hover { 
+  cursor: pointer;
+  background: #333;
+  transition: 0.5s;
+}
+.menu-element .text {
+  font-size: 20px;
+  text-shadow: 1px 1px #000;
+}
+
+.menu-element .img {
+  height: 5em;
+  width: 5em;
+
+  margin: 1em;
+  outline: 0.1em solid #000;
+  border-radius: 100%;
+}
+
+.element-side-menu {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.element-side-menu .button{
+  height: 50%;
+  background: #555;
+}
+
+.element-side-menu .button:hover{
+  height: 50%;
+  background: #333;
+  cursor: pointer;
+}
+
+.element-side-menu img {
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}

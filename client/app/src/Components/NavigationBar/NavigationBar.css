@@ -1,0 +1,41 @@
+.navbar {
+  width: 100vw;
+  font-size: 30px;
+  height: 5%;
+  background: #444444;
+  display: flex;
+  flex-direction: row;
+  outline: 1px solid black;
+}
+
+.navbar .text {
+  font-size: 30px;
+  line-height: 1.5em;
+  margin: auto;
+
+  color: white;
+  text-shadow: 0.1ex 0.1ex #000000;
+}
+
+.navbar .button.login {
+  font-size: 20px;
+  text-shadow: 0.1ex 0.1ex #000000;
+
+  background: #555555;
+  border: none;
+  padding: 0em 1em 0em 1em;
+  outline: 1px solid black;
+  
+  color: white;
+  cursor: pointer;
+
+  transition: 0.5s;
+
+  position: relative;
+}
+
+.navbar .button.login:hover {
+  background: #333333;
+
+  transition: 0.5s;
+}

@@ -1,0 +1,84 @@
+.login-component {
+  background: #555555;
+  font-size: 20px;
+
+  outline: 1px solid #000;
+
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+
+  animation-name: show;
+  animation-duration: 1s;
+}
+
+.login-component .text {
+  color: white;
+  font-size: 30px;
+  text-align: center;
+
+  text-shadow: 1px 1px #000000;
+}
+
+.login-form {
+  margin: 0.4em 1em;
+}
+
+.login-form.input {
+  font-size: 20px;
+  color: #FFF;
+  background: #444;
+  border: 1px solid #000;
+  padding-left: 0.5em;
+}
+
+.login-form.input:active {
+  outline: none;
+}
+
+.login-form.submit {
+  font-size: 20px;
+  background: #444;
+  color: #FFF;
+  border: 1px solid #000;
+
+  transition: 0.5s
+}
+
+.login-form.submit:hover {
+  background: #333;
+  cursor: pointer;
+
+  transition: 0.5s
+}
+
+.login-form.close-form {
+  position: absolute;
+  right: 5px;
+  top: 5px;
+  font-size: 15px;
+  line-height: 1em;
+  height: 1em;
+  width: 1em;
+  background: #444;
+  outline: 1px solid black;
+  color: #FFF;
+
+  border: none;
+  border-radius: 100%;
+  transition: 0.5s;
+}
+
+.login-form.close-form:hover {
+  background: #333;
+  transition: 0.5s;
+  cursor: pointer;
+}
+
+@keyframes show {
+  from {top: -20%}
+  to {top: 50%}
+}

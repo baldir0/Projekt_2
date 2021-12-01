@@ -1,0 +1,45 @@
+.menu {
+  font-size: 15px;
+  color: white;
+
+  background: #555;
+  width: 20em;
+  display: flex;
+  flex-direction: column;
+  height: 95%;
+  border: 1px solid black;
+  
+  position: relative;
+  float: left;
+}
+
+.menu .text-banner {
+  font-size: 20px;
+
+  width: 100%;
+  background: #666;
+  text-align: center;
+  line-height: 1.5em;
+
+  border-bottom: 1px solid black;
+}
+
+.recipe-list { 
+  height: 100%;
+  overflow-y: auto;
+}
+
+.recipe-list::-webkit-scrollbar {
+  background: #252525;
+  border: 1px solid #222222;
+  width: 8px;
+  height: 8px;
+}
+
+.recipe-list::-webkit-scrollbar-thumb {
+  background: #151515;
+}
+
+.recipe-list::-webkit-scrollbar-button {
+  display: none;
+}

@@ -138,6 +138,19 @@ Server.post('/api/post/create-recipe', async (req, res) => {
   })
 })
 
+Server.post('/api/post/update-recipe/:id', async (req, res) => {
+  await Recipes.update({
+    title: req.body.title, 
+    description: req.body.description,
+    ingredients: JSON.stringify(req.body.ingredients),
+    steps: JSON.stringify(req.body.steps), 
+    images: JSON.stringify(req.body.files),
+    icon: req.body.icon}, {where: {id: req.params.id}})
+    .then(result => res.send(result))
+})
+
+
+
 // METHOD DELETE
 
 Server.delete('/api/delete/delete-recipe/:id', async (req, res) => {

@@ -1,0 +1,105 @@
+.box {
+  background: #444;
+  height: 95%;
+  overflow-y: scroll;
+  overflow-x: auto;
+}
+
+.text {
+  color: white;
+  font-size: 15px;
+  text-align: left;
+  padding-left: 1em;
+
+  text-shadow: 1px 1px #000000;
+}
+
+.content {
+  background: #111111;
+  outline: #000;
+  height: auto;
+  width: 100%;
+  color: white;
+}
+
+.box::-webkit-scrollbar {
+  background: #252525;
+  border: 1px solid #222222;
+  width: 8px;
+  height: 8px;
+}
+
+.box::-webkit-scrollbar-thumb {
+  background: #151515;
+}
+
+.box::-webkit-scrollbar-button {
+  display: none;
+}
+
+.recipe.image {
+  text-align: center;
+  position: relative;
+  background: #131313;
+  outline: 1px solid #000;
+  width: 100%;
+}
+
+.images img {
+  display: none;
+}
+
+.images .active {
+  display: block;
+  margin: auto;
+}
+
+.arrow {
+  position: absolute;
+  top: 0px;
+  height: 100%;
+  width: 30%;
+  background: #FFFFFF00;
+  color: #FFFFFF00;
+  transition: 0.5s;
+  font-size: 50px;
+  font-weight: bold;
+  line-height: 100%;
+}
+
+.arrow span {
+  position: absolute;
+  top: 50%;
+  transform: translate(0%, -50%);
+}
+
+.arrow.left {
+  left: 0px;
+}
+
+.arrow.left:hover {
+  background: linear-gradient(0.25turn, rgba(0, 0, 0, 0.3), rgba(0, 0 ,0 ,0.2), rgba(0,0,0,0));
+  color: #FFFFFF;
+  cursor: pointer;
+
+  transition: 0.5s;
+}
+
+.arrow.right {
+  right: 0%;
+}
+
+.arrow.right:hover {
+  background: linear-gradient(-0.25turn, rgba(0, 0, 0, 0.3), rgba(0, 0 ,0 ,0.2), rgba(0,0,0,0));
+  color: #FFFFFF;
+  cursor: pointer;
+  
+  transition: 0.5s;
+}
+
+.recipe.title{
+  width: 100px;
+  font-size: 70px;
+  
+  text-align: center;
+}

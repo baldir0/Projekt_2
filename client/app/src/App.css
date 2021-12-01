@@ -1,8 +1,13 @@
 * {
   margin: 0px;
   padding: 0px;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'sans-serif';
   overflow-y: hidden;
+
+}
+
+body, html, .App, #root {
+  height: 100%;
 }
 
 .Top {
@@ -15,4 +20,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+}
+
+.App {
+  
 }
